@@ -29,8 +29,8 @@ public class Tela extends JPanel implements ActionListener {
         Box right = Box.createVerticalBox();
         right.add(getNuemrosSorteados(parentDimension.width / 2, parentDimension.height - TITLE_HEIGHT), BorderLayout.NORTH);
 
-        add(left, BorderLayout.WEST);
         add(right, BorderLayout.EAST);
+        add(left, BorderLayout.WEST);
     }
 
     private JPanel getDescricaoPremio(int w, int h) {
@@ -193,33 +193,6 @@ public class Tela extends JPanel implements ActionListener {
             if ((getLength() + str.length()) <= limit) {
                 super.insertString(offset, str, attr);
             }
-        }
-    }
-
-    public class JCustomPanel extends JPanel {
-        private float widhtWeight;
-        private float heightWeight;
-
-        public JCustomPanel(float widhtWeight, float heightWeight) {
-            this.widhtWeight = widhtWeight;
-            this.heightWeight = heightWeight;
-        }
-
-        private Dimension getCustomDimensions(){
-            Rectangle bounds = super.getParent().getBounds();
-            return new Dimension((int)(bounds.width * widhtWeight), (int)(bounds.height * heightWeight));
-        }
-        @Override
-        public Dimension getMaximumSize(){
-            return getCustomDimensions();
-        }
-        @Override
-        public Dimension getMinimumSize(){
-            return getCustomDimensions();
-        }
-        @Override
-        public Dimension getPreferredSize(){
-            return getCustomDimensions();
         }
     }
 }
