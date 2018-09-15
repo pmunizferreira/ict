@@ -1,19 +1,20 @@
 import java.awt.*;
-
 import javax.swing.*;
 
 public class Bingo extends JFrame {
 
-    public Bingo() {
+	private static final long serialVersionUID = 1L;
+	
+	public Bingo() {
         super("Bingo do ICT");
-        final int SIZE = 3;
         Container c = getContentPane();
         c.setLayout(new BorderLayout(30, 30));
 
         Dimension maxDimension = Toolkit.getDefaultToolkit().getScreenSize();
 
         Sorteio sorteio = new Sorteio();
-        c.add(new Tela(sorteio, maxDimension), BorderLayout.CENTER);
+        Tela tela = new Tela(sorteio, maxDimension);
+        c.add(tela, BorderLayout.CENTER);
 
         pack();
         setMaximumSize(maxDimension);
@@ -25,8 +26,9 @@ public class Bingo extends JFrame {
     public static void main(String args[]) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                Bingo app = new Bingo();
+                new Bingo();
             }
         });
     }
+
 }

@@ -12,7 +12,7 @@ public class Tela extends JPanel implements ActionListener {
     private static final long serialVersionUID = 1L;
 
     private static final int TITLE_HEIGHT = 80;
-    private static final int DESCRIPTION_HEIGHT = 300;
+    private static final int DESCRIPTION_HEIGHT = 0;
     JTextField pSorteioNumberTA = new JTextField();
     JLabel[][] pSorteioMapa = new JLabel[Sorteio.NUMBER_COL][Sorteio.NUMBER_PER_COL];
     Sorteio sorteio;
@@ -24,7 +24,7 @@ public class Tela extends JPanel implements ActionListener {
 
         Box left = Box.createVerticalBox();
         left.add(getNumeroSorteado(parentDimension.width / 2, parentDimension.height - DESCRIPTION_HEIGHT), BorderLayout.NORTH);
-        left.add(getDescricaoPremio(parentDimension.width / 2, DESCRIPTION_HEIGHT), BorderLayout.SOUTH);
+//        left.add(getDescricaoPremio(parentDimension.width / 2, DESCRIPTION_HEIGHT), BorderLayout.SOUTH);
 
         Box right = Box.createVerticalBox();
         right.add(getNuemrosSorteados(parentDimension.width / 2, parentDimension.height - TITLE_HEIGHT), BorderLayout.NORTH);
@@ -32,35 +32,34 @@ public class Tela extends JPanel implements ActionListener {
         add(right, BorderLayout.EAST);
         add(left, BorderLayout.WEST);
     }
-
-    private JPanel getDescricaoPremio(int w, int h) {
-        Border redline = BorderFactory.createLineBorder(Color.RED);
-        Font titleFont = new Font("Calibri", Font.BOLD, 50);
-
-        JTextArea pDesc = new JTextArea();
-        pDesc.setFont(new Font("Serif", Font.ITALIC, 50));
-        pDesc.setBorder(BorderFactory.createTitledBorder(redline, "Prêmio", TitledBorder.CENTER, TitledBorder.TOP, titleFont));
-        pDesc.setLineWrap(true);
-        pDesc.setWrapStyleWord(true);
-        pDesc.setPreferredSize(new Dimension(w, h));
-        pDesc.setForeground(Color.BLACK);
-
-        JPanel panel = new JPanel();
-        panel.setBackground(Color.WHITE);
-        panel.setBorder(BorderFactory.createEmptyBorder());
-        panel.setPreferredSize(new Dimension(w, h));
-        panel.add(pDesc);
-
-        return panel;
-    }
+//
+//    private JPanel getDescricaoPremio(int w, int h) {
+//        Border redline = BorderFactory.createLineBorder(Color.RED);
+//        Font titleFont = new Font("Calibri", Font.BOLD, 50);
+//
+//        JTextField pDesc = new JTextField();
+//        pDesc.setFont(new Font("Serif", Font.ITALIC, 40));
+//        pDesc.setBorder(BorderFactory.createTitledBorder(redline, "Prêmio", TitledBorder.CENTER, TitledBorder.TOP, titleFont));
+//        pDesc.setHorizontalAlignment(SwingConstants.CENTER);
+//        pDesc.setPreferredSize(new Dimension(w, h));
+//        pDesc.setForeground(Color.BLACK);
+//
+//        JPanel panel = new JPanel();
+//        panel.setBackground(Color.WHITE);
+//        panel.setBorder(BorderFactory.createEmptyBorder());
+//        panel.setPreferredSize(new Dimension(w, h));
+//        panel.add(pDesc);
+//
+//        return panel;
+//    }
 
     private JPanel getNumeroSorteado(int w, int h) {
         Border redline = BorderFactory.createLineBorder(Color.RED);
         Font titleFont = new Font("Calibri", Font.BOLD, 50);
 
-        pSorteioNumberTA.setFont(new Font("Calibri", Font.BOLD, 170));
+        pSorteioNumberTA.setFont(new Font("Calibri", Font.BOLD, 480));
         pSorteioNumberTA.setBorder(BorderFactory.createTitledBorder(redline, "Número Sorteado", TitledBorder.CENTER, TitledBorder.TOP, titleFont));
-        pSorteioNumberTA.setPreferredSize(new Dimension(w, h / 2));
+        pSorteioNumberTA.setPreferredSize(new Dimension(w, 3 * h / 4));
         pSorteioNumberTA.setHorizontalAlignment(SwingConstants.CENTER);
         pSorteioNumberTA.setDocument(new JTextFieldLimit(2));
         pSorteioNumberTA.setForeground(Color.RED);
@@ -158,19 +157,23 @@ public class Tela extends JPanel implements ActionListener {
                 }
             }
 
-            boolean[][] mapa = sorteio.getMapa();
-            for (int i = 0; i < mapa.length; i++) {
-                boolean[] col = mapa[i];
-                for (int j = 0; j < col.length; j++) {
-                    if (mapa[i][j]) {
-                        pSorteioMapa[i][j].setForeground(Color.red);
-                    } else {
-                        pSorteioMapa[i][j].setForeground(Color.lightGray);
-                    }
-                }
-            }
+            repaintNumbers();
         }
     }
+
+	private void repaintNumbers() {
+		boolean[][] mapa = sorteio.getMapa();
+		for (int i = 0; i < mapa.length; i++) {
+		    boolean[] col = mapa[i];
+		    for (int j = 0; j < col.length; j++) {
+		        if (mapa[i][j]) {
+		            pSorteioMapa[i][j].setForeground(Color.red);
+		        } else {
+		            pSorteioMapa[i][j].setForeground(Color.lightGray);
+		        }
+		    }
+		}
+	}
 
     class JTextFieldLimit extends PlainDocument {
         private static final long serialVersionUID = 1L;
