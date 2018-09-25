@@ -3,7 +3,7 @@ import java.util.Collections;
 
 
 public class Sorteio {
-    static final int NUMBER_PER_COL = 17;
+    static final int NUMBER_PER_COL = 15;
     static final int NUMBER_COL = 5;
     ArrayList<Integer> listaSorteada = new ArrayList<>();
     boolean[][] mapa = new boolean[NUMBER_COL][NUMBER_PER_COL];
