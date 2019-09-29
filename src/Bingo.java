@@ -1,34 +1,77 @@
-import java.awt.*;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
 
-public class Bingo extends JFrame {
+public class Bingo implements ActionListener {
 
-	private static final long serialVersionUID = 1L;
-	
+    static final int NUMBER_PER_COL = 15;
+    static final int NUMBER_COL = 5;
+    ArrayList<Integer> sortedNumbers = new ArrayList<>();
+    boolean[][] mapOfNumbers = new boolean[NUMBER_COL][NUMBER_PER_COL];
+
+    public boolean[][] getMapOfNumbers() {
+        return mapOfNumbers;
+    }
+    private Tela tela;
+
 	public Bingo() {
-        super("Bingo do ICT");
-        Container c = getContentPane();
-        c.setLayout(new BorderLayout(30, 30));
+        tela = new Tela(Tela.Mode.BINGO);
+        tela.setActionListener(this);
 
-        Dimension maxDimension = Toolkit.getDefaultToolkit().getScreenSize();
-
-        Sorteio sorteio = new Sorteio();
-        Tela tela = new Tela(sorteio, maxDimension);
-        c.add(tela, BorderLayout.CENTER);
-
-        pack();
-        setMaximumSize(maxDimension);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
+        tela.setVisible(true);
     }
 
-    public static void main(String args[]) {
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new Bingo();
+    public static void main(String[] args) {
+	    new Bingo();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        try {
+            switch (event.getActionCommand()) {
+                case "inputField":
+                    String text = tela.getInput();
+                    if (text != null && text.trim().length() > 0) {
+                        try {
+                            addSortedNumber(Integer.valueOf(text));
+                        } catch (Exception e) {
+                            tela.setInput("");
+                        }
+
+                        tela.repaintMapOfNumbersToBingo(getMapOfNumbers());
+                    }
+                    break;
+                case "resetButton":
+                    int result = Tela.confirmYesNo(
+                            "Deseja limpar todos os números do Bingo?",
+                            "RECOMEÇAR O BINGO");
+
+                    if (result == 0) {
+                        reset();
+                        tela.setInput("");
+                        tela.repaintMapOfNumbersToBingo(getMapOfNumbers());
+                    }
             }
-        });
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Dialog", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
+    public void reset() {
+        sortedNumbers.clear();
+        mapOfNumbers = new boolean[NUMBER_COL][NUMBER_PER_COL];
+    }
+
+    public void addSortedNumber(Integer number) {
+        if (number != null && !sortedNumbers.contains(number)) {
+            int col = (number - 1) / NUMBER_PER_COL;
+            int row = (number - 1) % NUMBER_PER_COL;
+            mapOfNumbers[col][row] = true;
+
+            sortedNumbers.add(number);
+            Collections.sort(sortedNumbers);
+        }
+    }
 }
