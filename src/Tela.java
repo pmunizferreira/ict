@@ -14,6 +14,19 @@ public class Tela extends JFrame {
     private static final int DESCRIPTION_HEIGHT = 0;
     public static final String FONT_NAME = "Calibri";
     private static String[] headers = new String[]{" B ", " I ", " N ", " G ", " O "};
+    private FontSettings fontSettings = FontSettings.BROAD;
+
+    enum FontSettings {
+        SHORT(30,250,22),
+        BROAD(50,400,35);
+
+        int title, inputNumber, mapNumber;
+        FontSettings(int title, int inputNumber, int mapNumber) {
+            this.title = title;
+            this.inputNumber = inputNumber;
+            this.mapNumber = mapNumber;
+        }
+    }
 
     private JTextField inputField;
     private JLabel[][] mapOfNumbers;
@@ -33,6 +46,11 @@ public class Tela extends JFrame {
     public Tela(Mode mode) {
         this.mode = mode;
         setLayout(new BorderLayout(0, 0));
+        Dimension maxDimension = Toolkit.getDefaultToolkit().getScreenSize();
+
+        if (maxDimension.height < 1000) {
+            fontSettings = FontSettings.SHORT;
+        }
 
         switch (this.mode) {
             case BINGO:
@@ -44,7 +62,6 @@ public class Tela extends JFrame {
         }
 
         pack();
-        Dimension maxDimension = Toolkit.getDefaultToolkit().getScreenSize();
         setMaximumSize(maxDimension);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -145,10 +162,10 @@ public class Tela extends JFrame {
         int h = maxDimension.height - DESCRIPTION_HEIGHT;
 
         Border redline = BorderFactory.createLineBorder(Color.RED);
-        Font titleFont = new Font("Calibri", Font.BOLD, 50);
+        Font titleFont = new Font("Calibri", Font.BOLD, fontSettings.title);
 
         inputField = new JTextField();
-        inputField.setFont(new Font("Calibri", Font.BOLD, 400));
+        inputField.setFont(new Font("Calibri", Font.BOLD, fontSettings.inputNumber));
         inputField.setBorder(BorderFactory.createTitledBorder(redline, "Número Sorteado", TitledBorder.CENTER, TitledBorder.TOP, titleFont));
         inputField.setPreferredSize(new Dimension(w - 10, 3 * h / 4));
         inputField.setHorizontalAlignment(SwingConstants.CENTER);
@@ -181,7 +198,7 @@ public class Tela extends JFrame {
             panel.setPreferredSize(new Dimension(w / 11, h));
 
             JLabel letter = new JLabel(headers[i]);
-            letter.setFont(new Font("Verdana", Font.BOLD, 50));
+            letter.setFont(new Font("Verdana", Font.BOLD, fontSettings.title));
             letter.setVerticalTextPosition(JLabel.TOP);
             letter.setHorizontalTextPosition(JLabel.CENTER);
             letter.setHorizontalAlignment(JLabel.CENTER);
@@ -194,7 +211,7 @@ public class Tela extends JFrame {
                 int number = (i * Bingo.NUMBER_PER_COL) + (j + 1);
                 JLabel label = new JLabel(number < 10 ? "0" + number : "" + number);
 
-                label.setFont(new Font("Verdana", Font.BOLD, 35));
+                label.setFont(new Font("Verdana", Font.BOLD, fontSettings.mapNumber));
                 label.setVerticalTextPosition(JLabel.TOP);
                 label.setHorizontalTextPosition(JLabel.CENTER);
                 label.setHorizontalAlignment(JLabel.CENTER);
@@ -236,7 +253,7 @@ public class Tela extends JFrame {
     /** ****************************************
      * GENERAL
      */
-    public static int confirmYesNo(String message, String title) {
+    public int confirmYesNo(String message, String title) {
         String[] options = {"Sim!", "Não!"};
         int result = JOptionPane.showOptionDialog(
                 null,
@@ -290,7 +307,7 @@ public class Tela extends JFrame {
         inputField.setText(s);
     }
 
-    public static void showSorteioDialog(String value)
+    public void showSorteioDialog(String value)
     {
         try {
             JFrame frame = new JFrame();

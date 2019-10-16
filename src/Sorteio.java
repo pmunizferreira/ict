@@ -1,10 +1,8 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -49,7 +47,7 @@ public class Sorteio implements ActionListener {
                     break;
                 case "removeButton":
                     if (text != null && text.trim().length() > 0) {
-                        int result = Tela.confirmYesNo(
+                        int result = tela.confirmYesNo(
                                 "Deseja remover o número do sorteio?",
                                 "REMOVER NÚMEROS"
                         );
@@ -61,7 +59,7 @@ public class Sorteio implements ActionListener {
                     }
                     break;
                 case "resetButton":
-                    int result = Tela.confirmYesNo(
+                    int result = tela.confirmYesNo(
                             "Deseja remover todos os números do Sorteio? Você não poderá recuperá-los depois disso.",
                             "REMOVER TODOS OS NÚMEROS"
                     );
@@ -82,7 +80,7 @@ public class Sorteio implements ActionListener {
                         while (sorted.contains(random));
 
                         sorted.add(random);
-                        Tela.showSorteioDialog(random);
+                        tela.showSorteioDialog(random);
                     }
                     break;
             }

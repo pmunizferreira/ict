@@ -44,7 +44,7 @@ public class Bingo implements ActionListener {
                     }
                     break;
                 case "resetButton":
-                    int result = Tela.confirmYesNo(
+                    int result = tela.confirmYesNo(
                             "Deseja limpar todos os números do Bingo?",
                             "RECOMEÇAR O BINGO");
 
