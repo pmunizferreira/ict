@@ -1,3 +1,7 @@
+/out/
 /bin/
 .classpath
 .project
+.idea/
+.DS_Store
+
